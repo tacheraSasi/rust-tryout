@@ -18,10 +18,18 @@ fn main() {
             .read_line(&mut guess)
             .expect("Failed to read line");
 
+        // Try to parse the guess. If it fails, ask for input again.
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,   // If parsing is successful, set `guess` to `num`
+            Err(_) => {
+                println!("Please enter a valid number!"); 
+                continue; // Skip the rest of the loop if parsing fails
+            }
+        };
+
         println!("You guessed: {}", guess);
 
-        let guess: u32 = guess.trim().parse().expect("Please type a number!");
-
+        // Compare guess to the secret number
         match guess.cmp(&secret_number) {
             Ordering::Less => println!("Too small!"),
             Ordering::Greater => println!("Too big!"),
